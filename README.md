@@ -46,6 +46,13 @@ Create a database named `cosimplat`.
 
 ### 3. Download the CoSimPlat-py Codebase
 
+To download the CoSimPlat-py codebase, follow the steps below:
+
+1. Clone the repository using Git:
+   ```bash
+   git clone https://github.com/ESI-FAR/RESCUE-cosimplat-py.git
+
+
 ### 4. Setup your co-simulation 
 
 1. Agree on the JSON packet structure with other players: which information would you like to share at each step? 
