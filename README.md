@@ -10,8 +10,10 @@ The *CoSimPlat - Python Version* is a co-simulation framework which uses the so 
 <img src="https://github.com/user-attachments/assets/c176426c-28df-4abe-bd50-42e9458ece84" alt="Screenshot 2024-11-27 141809" width="40%">
 
 The logic behing this cosimulation platform is simple: the co-simulation leader (always identified with id = 1 in the code) makes the first move (Step 0) and waits until everyone reaches the current step, then proceeds to the next. And so on...
-<img src="[https://github.com/user-attachments/assets/c176426c-28df-4abe-bd50-42e9458ece84](https://github.com/user-attachments/assets/e6654e64-4e51-4bba-aa78-081b04d290d2)" alt="Screenshot 2024-11-27 141809" width="60%">
 
+
+
+![cosimplat](https://github.com/user-attachments/assets/818d5e87-173c-4f42-944b-224ccd17dda1)
 
 
 ## Prerequisites
