@@ -25,6 +25,15 @@ Before you begin, ensure you have the following software installed:
 ### 1. Set Up the MySQL Database (on a cloud server or on a local)
 
 Create a database named `cosimplat`. You can use also PostgreSQL or similar.
+You can do that by exploiting Docker.
+
+Starting a MySQL instance:
+
+ ```
+$ docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d cosimplat:tag
+ ```
+(section in progress...)
+
 
 ### 2. Create the `simcrono` Table 
 
