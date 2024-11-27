@@ -55,7 +55,7 @@ To download the CoSimPlat-py codebase, follow the steps below:
 
 ### 4. Setup your co-simulation 
 
-1. Agree on the JSON packet structure with other players: which information would you like to share at each step? 
+1. Agree on the JSON packet structure with other players: which information would you like to share at every step? 
 2. Setup the details: Game Leader (ID = 1) , simulation steps, Your unique ID, MySQL connection details
 3. Create an extractor function to retreive the information you need from the JSON payload
 4. Fill the *your_simulation()* function with your actual programmatic simulation loop
