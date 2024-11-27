@@ -4,7 +4,7 @@ This README file provides instructions for installing and running the *CoSimPlat
 
 ### How It Works
 
-The *CoSimPlat - Python Version* is a co-simulation framework which uses the so called Long Polling paradigme to enable Event-Based real-time communication among the players exploiting MySQL database​. The whole mechanism is made possible thanks to the standardization of the Payload, ​i.e. a  JSON template containing Meta and Packets. Precisely, the Payload is the total amount of information that is shared between the players at everytime step, while the Packets are intended as the customizable part of the Payload which has to be agreed a priori by all the players of the cosimulation. 
+The *CoSimPlat - Python Version* is a co-simulation framework which uses the so called Long Polling paradigme to enable Event-Based real-time communication among the players exploiting MySQL database​. The whole mechanism is made possible thanks to the standardization of the Payload, ​i.e. a  JSON template containing Meta and Packets. Precisely, the Payload is the total amount of information that is shared between the players at every step, while the Packets are intended as the customizable part of the Payload which has to be agreed a priori by all the players of the cosimulation. 
 
 
 <img src="https://github.com/user-attachments/assets/c176426c-28df-4abe-bd50-42e9458ece84" alt="Screenshot 2024-11-27 141809" width="40%">
