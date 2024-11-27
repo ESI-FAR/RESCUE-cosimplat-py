@@ -61,8 +61,9 @@ To download the CoSimPlat-py codebase, follow the steps below:
 4. Fill the *your_simulation()* function with your actual programmatic simulation loop
 
 
-### 4. Run the Application
+### 5. Run the Application
 
+Run the main.py and proceed with your co-simulation.
 
 ## Troubleshooting
 
