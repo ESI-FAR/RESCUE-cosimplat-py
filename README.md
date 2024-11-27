@@ -10,8 +10,8 @@ The *CoSimPlat - Python Version* is a co-simulation framework which uses the so 
 <img src="https://github.com/user-attachments/assets/c176426c-28df-4abe-bd50-42e9458ece84" alt="Screenshot 2024-11-27 141809" width="40%">
 
 The logic behing this cosimulation platform is simple: the co-simulation leader (always identified with id = 1 in the code) makes the first move (Step 0) and waits until everyone reaches the current step, then proceeds to the next. And so on...
+<img src="[https://github.com/user-attachments/assets/c176426c-28df-4abe-bd50-42e9458ece84](https://github.com/user-attachments/assets/e6654e64-4e51-4bba-aa78-081b04d290d2)" alt="Screenshot 2024-11-27 141809" width="60%">
 
-![cosimplat](https://github.com/user-attachments/assets/e6654e64-4e51-4bba-aa78-081b04d290d2)
 
 
 ## Prerequisites
@@ -20,11 +20,11 @@ Before you begin, ensure you have the following software installed:
 
 ## Installation Steps
 
-### 1. Set Up the MySQL Database
+### 1. Set Up the MySQL Database (on a cloud server or on a local)
 
 Create a database named `cosimplat`.
 
-### 2. Create the `simcrono` Table on a cloud server or on a local
+### 2. Create the `simcrono` Table 
 
 1. With the `cosimplat` database selected, enter the following SQL code to create the `simcrono` table:
 
@@ -47,7 +47,7 @@ Create a database named `cosimplat`.
 ### 4. Setup your co-simulation 
 
 1. Agree on the JSON packet structure with other players: which information would you like to share at each step? 
-2. Setup the details: Game Leader (ID = 1) , simulation steps, Your unique ID
+2. Setup the details: Game Leader (ID = 1) , simulation steps, Your unique ID, MySQL connection details
 3. Create an extractor function to retreive the information you need from the JSON payload
 4. Fill the *your_simulation()* function with your actual programmatic simulation loop
 
