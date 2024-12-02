@@ -25,7 +25,7 @@ players_progress = {}
 collected_payloads = {}
 
 # Global variable for submodel_id and number of players
-submodel_id = 1  # Set the desired submodel ID here. NB Submodel number 1 is by definition the Game Leader.
+submodel_id = 2  # Set the desired submodel ID here. NB Submodel number 1 is by definition the Game Leader.
 total_players = 3 # Set the number of players here
 steps = [0, 1, 2, 3, 4] # Set the total number of sim steps
 
@@ -86,7 +86,7 @@ def long_poll_with_simulation(steps):
         result, last_timestamp = fetch_data(last_timestamp)
 
         # Check the special condition for step 0 and submodel_id
-        if current_step == 0 and submodel_id == 1 and not result:
+        if current_step == 0 and submodel_id == submodel_id and not result:
             print(f"Co-simulation started at step 0 by submodel_id {submodel_id}.")
             your_simulation(collected_payloads[current_step], current_step)  # Proceed with simulation for step 0
             current_step += 1  # Move to the next step
@@ -181,7 +181,7 @@ def your_simulation(payloads, current_step):
     # 2. Update the state of your simulation model with the information you were looking for
 
     # 3. Execute the model till the next step
-    time.sleep(1.1)  # Delay for 1.3 seconds - just to simulate a process. Delete in real mode.
+    time.sleep(1.01)  # Delay for 1.3 seconds - just to simulate a process. Delete in real mode.
     # ########################################################################################################
 
     # 4. Insert Payload relative to the "next step" into MySQL database the result of your simulation.
