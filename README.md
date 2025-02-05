@@ -29,27 +29,33 @@ You can do that by exploiting Docker.
 
 Starting a MySQL instance:
 
- ```
-$ docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d cosimplat:tag
- ```
-(section in progress...)
+```shell
+docker run --name some-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -e MYSQL_DATABASE=cosimplat -d mysql:9.2
+```
 
+When you are done use `docker rm -f some-mysql` to stop the container.
 
-### 2. Create the `simcrono` Table 
+### 2. Create the `simcrono` Table
+
+0. In mysql console
+
+    ```shell
+    docker exec -it some-mysql mysql -p cosimplat
+    # Use the password my-secret-pw
+    ```
 
 1. With the `cosimplat` database selected, enter the following SQL code to create the `simcrono` table:
 
     ```sql
-    CREATE TABLE simcrono (
+    CREATE TABLE IF NOT EXISTS simcrono (
     id INT AUTO_INCREMENT PRIMARY KEY,
     simgame_id INT NOT NULL,
     submodel_id INT NOT NULL,
     sim_step INT,  
     payload LONGTEXT NOT NULL,
-    state_history LONGTEXT NOT NULL,
+    state_history LONGTEXT,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
-
     ```
 
 
@@ -73,6 +79,15 @@ To download the CoSimPlat-py codebase, follow the steps below:
 ### 5. Run the Application
 
 Run the main.py and proceed with your co-simulation.
+
+```shell
+python3 main.py
+Starting long-polling with simulation...
+Co-simulation started at step 0 by submodel_id 2.
+Running simulation step: 1
+Waiting for all players to share data for step 1.
+```
+
 
 ## Troubleshooting
 

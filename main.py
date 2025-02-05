@@ -14,9 +14,10 @@ import datetime
 
 # Database configuration
 db_config = {
-    'host': 'localhost',
+    'host':"127.0.0.1",
+    'port':3306,
     'user': 'root',
-    'password': '',  # Add your MySQL password here if applicable. Not needed on localhost
+    'password': 'my-secret-pw',  # Add your MySQL password here if applicable. Not needed on localhost
     'database': 'cosimplat'
 }
 
