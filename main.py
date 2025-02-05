@@ -25,8 +25,9 @@ players_progress = {}
 collected_payloads = {}
 
 # Global variable for submodel_id and number of players
-submodel_id = 1  # Set the desired submodel ID here. NB Submodel number 1 is by definition the Game Leader.
+submodel_id = 2  # Set the desired submodel ID here. NB Submodel number 1 is by definition the Game Leader.
 total_players = 3 # Set the number of players here
+
 # Define the total number of simulation steps
 total_steps = 30
 
@@ -34,6 +35,7 @@ total_steps = 30
 steps = []
 for i in range(total_steps):
     steps.append(i)
+
 # Function to get the database connection
 def get_db_connection():
     try:
@@ -91,7 +93,7 @@ def long_poll_with_simulation(steps):
         result, last_timestamp = fetch_data(last_timestamp)
 
         # Check the special condition for step 0 and submodel_id
-        if current_step == 0 and submodel_id == 1 and not result:
+        if current_step == 0 and submodel_id == submodel_id and not result:
             print(f"Co-simulation started at step 0 by submodel_id {submodel_id}.")
             your_simulation(collected_payloads[current_step], current_step)  # Proceed with simulation for step 0
             current_step += 1  # Move to the next step
