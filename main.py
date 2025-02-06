@@ -11,12 +11,14 @@ import mysql.connector
 import time
 import json
 import datetime
+import sys
 
 # Database configuration
 db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': '',  # Add your MySQL password here if applicable. Not needed on localhost
+    'host':"127.0.0.1",
+    'port':3306,
+    'user': 'user',
+    'password': 'userpassword',  # Add your MySQL password here if applicable. Not needed on localhost
     'database': 'cosimplat'
 }
 
@@ -26,6 +28,8 @@ collected_payloads = {}
 
 # Global variable for submodel_id and number of players
 submodel_id = 2  # Set the desired submodel ID here. NB Submodel number 1 is by definition the Game Leader.
+if len(sys.argv) == 2:
+    submodel_id = int(sys.argv.pop())
 total_players = 3 # Set the number of players here
 
 # Define the total number of simulation steps
