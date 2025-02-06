@@ -28,7 +28,14 @@ collected_payloads = {}
 # Global variable for submodel_id and number of players
 submodel_id = 2  # Set the desired submodel ID here. NB Submodel number 1 is by definition the Game Leader.
 total_players = 3 # Set the number of players here
-steps = [0, 1, 2, 3, 4] # Set the total number of sim steps
+
+# Define the total number of simulation steps
+total_steps = 30
+
+# Create the list using a loop
+steps = []
+for i in range(total_steps):
+    steps.append(i)
 
 # Function to get the database connection
 def get_db_connection():
