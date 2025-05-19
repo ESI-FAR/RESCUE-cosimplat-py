@@ -1,22 +1,29 @@
 {% extends "base.html.j2" %}
 {% block content %}
-<section>
-    <span>Selected network: {{ network.name }}</span>
-    (<a href="{{ url_for('index') }}">change</a>)
-</section>
-<h2>Select a Scenario</h2>
-<form method="post">
-    <div style="display: flex; flex-direction: row;gap: 2rem;">
-        {% for scenario_id, scenario in scenarios.items() %}
-        <div style="margin-bottom: 1em;border: 1px solid #ccc; padding: 1em; border-radius: 5px;">
-            <label>
-                <input type="radio" name="scenario_id" value="{{ scenario_id }}" {% if loop.first %}checked{% endif %}>
-                <strong>{{ scenario.name }}</strong><br>
-                <p>{{ scenario.description }}</p>
-            </label>
+    <section>
+        <span>Selected network: {{ network.name }}</span>
+        (<a href="{{ url_for('index') }}">change</a>)
+    </section>
+    <h2>Select a Scenario</h2>
+    <form method="post">
+        <div style="display: flex; flex-direction: row;gap: 2rem;">
+            {% for scenario_id, scenario in scenarios.items() %}
+                <div style="margin-bottom: 1em;
+                            border: 1px solid #ccc;
+                            padding: 1em;
+                            border-radius: 5px">
+                    <label>
+                        <input type="radio"
+                               name="scenario_id"
+                               value="{{ scenario_id }}"
+                               {% if loop.first %}checked{% endif %}>
+                        <strong>{{ scenario.name }}</strong>
+                        <br>
+                        <p>{{ scenario.description }}</p>
+                    </label>
+                </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
-    <button type="submit">Select scenario</button>
-</form>
-{% endblock %}
+        <button type="submit">Select scenario</button>
+    </form>
+{% endblock content %}

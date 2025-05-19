@@ -11,3 +11,9 @@ dependencies = [
 [build-system]
 requires = ["hatchling >= 1.26"]
 build-backend = "hatchling.build"
+
+[tool.djlint]
+profile = "jinja"
+files=["src/rescue_dashboard/templates"]
+extension="html.j2"
+ignore = "H021,H006"

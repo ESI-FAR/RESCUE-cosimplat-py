@@ -1,35 +1,41 @@
-{% if current_step <= total_steps %}
-<div hx-get="{{ request.path }}" hx-trigger="every 2s" hx-swap="outerHTML">
-{% else %}
-<div>
-{% endif %}
-{% extends "base.html.j2" %}
-{% block content %}
-<div>
-    <h2>Simulation</h2>
-    <div name="time">
-        On step {{ current_step }} of {{ total_steps }}.
-    </div>
-    <!-- TODO add button to stop the simulation -->
-</div>
-<div style="display: flex; flex-direction: row; gap: 2rem;justify-content: space-between;">
-    <div name="network">
-        <h2>Network</h2>
-        <p>{{ network.name }}</p>
-        <img src="{{ url_for('static', filename=network.image) }}" alt="{{ network.name }}"
-            style="max-width: 400px; display: block; margin-top: 0.5em;">
-        <!-- TODO render network metrics in image -->
-    </div>
-    <div>
-        <div name="alert">
-            <h2>Alert</h2>
-            {{ alert_status}}
+{# Reload page every 2s until simulation is complete #}
+<div {% if current_step < total_steps %}hx-get="{{ request.path }}" hx-trigger="every 2s" hx-swap="outerHTML"{% endif %}>
+    {% extends "base.html.j2" %}
+    {% block content %}
+        <div>
+            <h2>Simulation</h2>
+            <div name="time">On step {{ current_step }} of {{ total_steps }}.</div>
+            <!-- TODO add button to stop the simulation -->
         </div>
-        <div name="loss">
-            <h2>Power system load loss</h2>
-            {{ power_system_load_loss}}
+        <div style="display: flex;
+                    flex-direction: row;
+                    gap: 2rem;
+                    justify-content: space-between">
+            <div name="network">
+                <h2>Network: {{ network.name }}</h2>
+                <img src="{{ url_for('static', filename=network.image) }}"
+                     alt="{{ network.name }}"
+                     style="max-width: 400px;
+                            display: block;
+                            margin-top: 0.5em">
+                <!-- TODO render network metrics in image -->
+            </div>
+            <div>
+                <div name=""scenario">
+                    <h2>Scenario: {{ scenario.name }}</h2>
+                    <p>{{ scenario.description }}</p>
+                </div>
+            </div>
+            <div>
+                <div name="alert">
+                    <h2>Alert</h2>
+                    {{ alert_status }}
+                </div>
+                <div name="loss">
+                    <h2>Power system load loss</h2>
+                    {{ power_system_load_loss }}
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-{% endblock %}
+    {% endblock content %}
 </div>

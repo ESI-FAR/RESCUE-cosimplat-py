@@ -47,6 +47,7 @@ def post_network(network_id):
 @app.route("/monitor/<network_id>/scenario/<scenario_id>")
 def monitor(network_id, scenario_id):
     network = config["networks"][network_id]
+    scenario = config["scenarios"][scenario_id]
 
     # TODO fetch data from db
     progress["current_step"] += 1
@@ -57,8 +58,9 @@ def monitor(network_id, scenario_id):
     return render_template(
         "monitor.html.j2",
         network_id=network_id,
-        scenario_id=scenario_id,
         network=network,
+        scenario_id=scenario_id,
+        scenario=scenario,
         current_step=progress["current_step"],
         total_steps=total_steps,
         alert_status=alert_status,

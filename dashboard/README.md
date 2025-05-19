@@ -17,3 +17,23 @@ Make sure the MySQL database is running.
 ```shell
 flask --app rescue_dashboard run
 ```
+
+## Development
+
+Format Python code using [ruff](https://docs.astral.sh/ruff/):
+```shell
+uvx ruff format
+```
+Lint Python code:
+```shell
+uvx ruff check
+```
+
+Format Jinja2 templates in `src/rescue_dashboard/templates/**.html.j2` using [djlint](https://djlint.com/):
+```shell
+uvx djlint --reformat -
+```
+Lint templates:
+```shell
+uvx djlint -
+```

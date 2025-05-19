@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    {% block head %}
-    <title>{% block title %}{% endblock %} - RESCUE co-simulation platform dashboard</title>
-    {% endblock %}
-     <script src="{{ url_for('static', filename='htmx.js') }}"></script>
-</head>
-
-<body>
-    <h1>RESCUE co-simulation platform dashboard</h1>
-    <div id="content">{% block content %}{% endblock %}</div>
-</body>
-
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="RESCUE co-simulation platform dashboard">
+        <meta name="keywords" content="RESCUE, co-simulation, dashboard">
+        {% block head %}
+            <title>
+                {% block title %}
+                {% endblock title %}
+            - RESCUE co-simulation platform dashboard</title>
+        {% endblock head %}
+        <script src="{{ url_for('static', filename='htmx.js') }}"></script>
+    </head>
+    <body>
+        <h1>RESCUE co-simulation platform dashboard</h1>
+        <div id="content">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </body>
 </html>
