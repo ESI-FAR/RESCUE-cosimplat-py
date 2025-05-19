@@ -1,6 +1,6 @@
 '''
  * Amsterdam 24-10-2024
- * This software has been developed by Ermanno Lo Cascio and Ole Mussmann
+ * This software has been developed by Ermanno Lo Cascio, Stefan Verhoeven and Ole Mussmann
  * of the eScience Center (ESI-FAR Team), AMSTERDAM - The Netherlands.
  * This work is part of the RESCUE project.
  * © Annus Domini 2024. All rights reserved.
