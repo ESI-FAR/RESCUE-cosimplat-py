@@ -1,3 +1,8 @@
+{% if current_step <= total_steps %}
+<div hx-get="{{ request.path }}" hx-trigger="every 2s" hx-swap="outerHTML">
+{% else %}
+<div>
+{% endif %}
 {% extends "base.html.j2" %}
 {% block content %}
 <div>
@@ -27,3 +32,4 @@
     </div>
 </div>
 {% endblock %}
+</div>

@@ -7,6 +7,10 @@ app = Flask(__name__)
 with open("config.toml", "rb") as f:
     config = tomllib.load(f)
 
+progress = {
+    "current_step": 0,
+}
+
 
 @app.get("/")
 def index():
@@ -35,6 +39,7 @@ def network(network_id):
 @app.post("/network/<network_id>")
 def post_network(network_id):
     scenario_id = request.form["scenario_id"]
+    progress["current_step"] = 0
     # TODO Trigger simulation start
     return redirect(url_for("monitor", network_id=network_id, scenario_id=scenario_id))
 
@@ -43,8 +48,8 @@ def post_network(network_id):
 def monitor(network_id, scenario_id):
     network = config["networks"][network_id]
 
-    # TODO update page when db changes
-    current_step = 0
+    # TODO fetch data from db
+    progress["current_step"] += 1
     total_steps = config["total_steps"]
     alert_status = "NOMINAL"
     power_system_load_loss = 0
@@ -54,7 +59,7 @@ def monitor(network_id, scenario_id):
         network_id=network_id,
         scenario_id=scenario_id,
         network=network,
-        current_step=current_step,
+        current_step=progress["current_step"],
         total_steps=total_steps,
         alert_status=alert_status,
         power_system_load_loss=power_system_load_loss,
