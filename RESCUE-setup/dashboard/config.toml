@@ -1,6 +1,4 @@
 total_steps = 30
-submodel_id = 4
-total_players = 4
 
 [database]
 host = "localhost"

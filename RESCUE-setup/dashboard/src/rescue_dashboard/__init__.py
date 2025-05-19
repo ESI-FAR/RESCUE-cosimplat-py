@@ -1,12 +1,17 @@
+from pathlib import Path
+from textwrap import dedent
 import tomllib
 
 from flask import Flask, redirect, render_template, request, url_for
+from .cosimplat import fetch_data, get_db_connection
+import subprocess
 
 app = Flask(__name__)
 
 with open("config.toml", "rb") as f:
     config = tomllib.load(f)
 
+# Note: This only works when flask is run in single-threaded mode
 progress = {
     "current_step": 0,
 }
@@ -40,8 +45,53 @@ def network(network_id):
 def post_network(network_id):
     scenario_id = request.form["scenario_id"]
     progress["current_step"] = 0
-    # TODO Trigger simulation start
+
+    selection_file = Path("../WP2/selection.toml")
+    selection_file.write_text(
+        dedent(f"""\
+        network = {network_id}
+        scenario = {scenario_id}    
+    """)
+    )
+
+    stop_models()
+    start_models()
+
     return redirect(url_for("monitor", network_id=network_id, scenario_id=scenario_id))
+
+
+model_pids = {
+    "wp2": None,
+    "wp3": None,
+    "wp4": None,
+}
+
+
+def start_models():
+    wp2_out = open("../WP2/log.out", "w")
+    wp2_err = open("../WP2/log.err", "w")
+    wp3_out = open("../WP3/log.out", "w")
+    wp3_err = open("../WP3/log.err", "w")
+    wp4_out = open("../WP4/log.out", "w")
+    wp4_err = open("../WP4/log.err", "w")
+
+    model_pids["wp2"] = subprocess.Popen(
+        ["python", "main_wp2.py"], stdout=wp2_out, stderr=wp2_err, cwd="../WP2"
+    )
+    model_pids["wp3"] = subprocess.Popen(
+        ["python", "main_wp3.py"], stdout=wp3_out, stderr=wp3_err, cwd="../WP3"
+    )
+    model_pids["wp4"] = subprocess.Popen(
+        ["python", "main_wp4.py"], stdout=wp4_out, stderr=wp4_err, cwd="../WP4"
+    )
+
+
+def stop_models():
+    for model, pid in model_pids.items():
+        if pid:
+            pid.terminate()
+            pid.wait()
+            model_pids[model] = None
 
 
 @app.route("/monitor/<network_id>/scenario/<scenario_id>")
@@ -49,11 +99,20 @@ def monitor(network_id, scenario_id):
     network = config["networks"][network_id]
     scenario = config["scenarios"][scenario_id]
 
-    # TODO fetch data from db
+    with get_db_connection(config["database"]) as conn:
+        # Dashboard needs all timesteps for plotting
+        # so we supply earliest timestamp
+        epoch = "1970-01-01 00:00:00"
+        result, _ = fetch_data(epoch, conn)
+
+    # TODO extract data from result
     progress["current_step"] += 1
     total_steps = config["total_steps"]
     alert_status = "NOMINAL"
     power_system_load_loss = 0
+
+    if progress["current_step"] >= total_steps:
+        stop_models()
 
     return render_template(
         "monitor.html.j2",
