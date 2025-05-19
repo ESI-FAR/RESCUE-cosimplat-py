@@ -1,0 +1,13 @@
+[project]
+name = "rescue-dashboard"
+version = "0.1.0"
+description = "A web-based dashboard for the RESCUE co-simulation platform"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "flask>=3.1.1",
+]
+
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"

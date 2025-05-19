@@ -1,0 +1,39 @@
+total_steps = 30
+submodel_id = 4
+total_players = 4
+
+[database]
+host = "localhost"
+user = "root"
+password = ''
+database = "cosimplat"
+
+[networks]
+
+[networks.0]
+name = "IEEE 39 bus"
+# The image file should be in the ./static/ directory 
+# TODO replace with the actual svg image file
+image = "IEEE_39_bus.jpg"
+
+[networks.1]
+name ="DSIE-94 benchmark"
+# TODO replace with the actual svg image file
+image = "IEEE_39_bus.jpg"
+
+[scenarios]
+
+[scenarios.0]
+name = "reference"
+description = """
+This is the reference scenario.
+No cyber attack is simulated and
+the incident response should not be triggered.
+"""
+
+[scenarios.1]
+name = "cyber attack"
+description = """
+This scenario simulates a cyber attack on the system.
+The incident response should mitigate the attack.
+"""
