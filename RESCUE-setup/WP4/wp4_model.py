@@ -32,15 +32,46 @@ def insert_payload_to_db(payload_json, submodel_id, simgame_id, sim_step):
         cursor.close()
         conn.close()
 
+
+
+import json
+
+import json
+
+def get_submodel_payload(payloads, target_submodel_id):
+    """
+    Extracts the 'submodel_payload' from the 'payload' section of a specific submodel_id.
+
+    Args:
+        payloads (list): A list of JSON strings.
+        target_submodel_id (int): The submodel_id to filter by.
+
+    Returns:
+        list or None: The submodel_payload list if found, otherwise None.
+    """
+    for item in payloads:
+        try:
+            data = json.loads(item)
+            if data.get('submodel_id') == target_submodel_id:
+                return data.get('payload', {}).get('submodel_payload')
+        except json.JSONDecodeError:
+            print(f"Warning: Skipping invalid JSON: {item}")
+            continue
+    return None
+
+
 def your_simulation(payloads, current_step):
 
 
     # Implement your simulation calculation using the payloads
-    # print("Simulation output with payloads:", payloads)
+    #print("Simulation output with payloads:", payloads)
 
     # Add your simulation logic here #########################################################################
 
     # 1. Extrapolate the information you need from the Payload
+
+    submodel_data = get_submodel_payload(payloads, 2)
+    print("Extracted submodel_payload from submodel_id 2:", submodel_data)
 
     # 2. Update the state of your simulation model with the information you were looking for
 

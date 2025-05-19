@@ -14,6 +14,29 @@ db_config = {
     'database': 'cosimplat'
 }
 
+
+def get_submodel_payload(payloads, target_submodel_id):
+    """
+    Extracts the 'submodel_payload' from the 'payload' section of a specific submodel_id.
+
+    Args:
+        payloads (list): A list of JSON strings.
+        target_submodel_id (int): The submodel_id to filter by.
+
+    Returns:
+        list or None: The submodel_payload list if found, otherwise None.
+    """
+    for item in payloads:
+        try:
+            data = json.loads(item)
+            if data.get('submodel_id') == target_submodel_id:
+                return data.get('payload', {}).get('submodel_payload')
+        except json.JSONDecodeError:
+            print(f"Warning: Skipping invalid JSON: {item}")
+            continue
+    return None
+
+
 def insert_payload_to_db(payload_json, submodel_id, simgame_id, sim_step):
     try:
         conn = mysql.connector.connect(**db_config)
@@ -44,6 +67,9 @@ def your_simulation(payloads, current_step):
     # Add your simulation logic here #########################################################################
 
     # 1. Extrapolate the information you need from the Payload
+
+    submodel_data = get_submodel_payload(payloads, 3)
+    print("Extracted submodel_payload from submodel_id 3:", submodel_data)
 
     # 2. Update the state of your simulation model with the information you were looking for
 
