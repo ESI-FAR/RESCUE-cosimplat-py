@@ -33,7 +33,21 @@ def insert_payload_to_db(payload_json, submodel_id, simgame_id, sim_step):
         conn.close()
 
 def your_simulation(payloads, current_step):
-    time.sleep(1.01)  # Simulate some processing
+
+    # Implement your simulation calculation using the payloads
+    # print("Simulation output with payloads:", payloads)
+
+    # Add your simulation logic here #########################################################################
+
+    # 1. Extrapolate the information you need from the Payload
+
+    # 2. Update the state of your simulation model with the information you were looking for
+
+    # 3. Execute the model till the next step
+    time.sleep(1.01)  # Delay for 1.3 seconds - just to simulate a process. Delete in real mode.
+    # ########################################################################################################
+
+    # 4. Insert Payload relative to the "next step" into MySQL database the result of your simulation.
 
     payload = {
         "simgame_id": 1,
