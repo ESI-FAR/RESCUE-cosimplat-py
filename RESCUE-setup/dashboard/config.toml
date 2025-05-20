@@ -10,14 +10,11 @@ database = "cosimplat"
 
 [networks.0]
 name = "IEEE 39 bus"
-# The image file should be in the ./static/ directory 
-# TODO replace with the actual svg image file
-image = "IEEE_39_bus.jpg"
+image = "IEEE_39.svg"
 
 [networks.1]
 name ="DSIE-94 benchmark"
-# TODO replace with the actual svg image file
-image = "IEEE_39_bus.jpg"
+image = "DSIE-94.svg"
 
 [scenarios]
 
