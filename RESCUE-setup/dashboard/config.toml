@@ -7,6 +7,21 @@ user = "root"
 password = 'my-secret-pw'
 database = "cosimplat"
 
+[models]
+
+# Key is the submodel_id
+[models.1]
+name = 'wp2'
+label = "Cyber-Physical power system"
+
+[models.2]
+name = "wp3"
+label = "Intrusion detection system"
+
+[models.3]
+name = "wp4"
+label = "Incident response model"
+
 [networks]
 
 [networks.0]

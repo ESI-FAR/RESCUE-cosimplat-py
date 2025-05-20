@@ -1,39 +1,62 @@
 {% extends "base.html.j2" %}
 {% block content %}
     {# Reload page every 2s until simulation is complete #}
-    <div {% if current_step < total_steps %}hx-get="{{ request.path }}" hx-trigger="every 2s" hx-swap="outerHTML"{% endif %}>
+    <div {% if not progress.done %}hx-get="{{ request.path }}" hx-trigger="every 2s" hx-swap="outerHTML"{% endif %}>
         <div>
-            <h2>Simulation <span class="htmx-indicator">loading...</span></h2>
-            <div name="time">On step {{ current_step }} of {{ total_steps }}.</div>
-            <!-- TODO add button to stop the simulation -->
-        </div>
-        <div name=""scenario">
-            <h2>Scenario: {{ scenario.name }}</h2>
-            <p>{{ scenario.description }}</p>
-        </div>
-        <div style="display: flex;
-                    flex-direction: row;
-                    gap: 2rem;
-                    justify-content: space-between">
-            <div name="network">
-                <h2>Network: {{ network.name }}</h2>
-                <img src="{{ url_for('static', filename=network.image) }}"
-                     alt="{{ network.name }}"
-                     style="max-width: 750px;
-                            display: block;
-                            margin-top: 0.5em">
-                <!-- TODO render network metrics in image -->
-            </div>
-            <div>
-                <div name="alert">
-                    <h2>Alert</h2>
-                    {{ alert_status }}
+            <h2>
+                Monitoring simulation <span class="htmx-indicator">loading...</span>
+            </h2>
+            Of "{{ network.name }}" network and "<span title="{{ scenario.description }}">{{ scenario.name }}</span>" scenario.
+            <!-- TODO add button to stop or pause the simulation -->
+            <style>
+            .progress {
+                width: 40rem;
+                background-color: #f3f3f3;
+                border-radius: 5px;
+                overflow: hidden;
+            }
+
+            .progress-bar {
+                height: 20px;
+                width: 0%;
+                background-color: {% if progress.done %}green{% else %}blue{% endif %};
+                transition: width 0.4s;
+            }
+            </style>
+            <div style="display: flex;
+                        flex-direction: row;
+                        gap: 2rem;
+                        justify-content: flex-start">
+                <div style="display: grid;
+                            grid-template-columns: auto 1fr auto;
+                            gap: 10px">
+                    {% for model_id,model in models.items() %}
+                        <p>{{ model.label }} ({{ model.name }})</p>
+                        <div style="align-content: center;">
+                            <div class="progress">
+                                <div class="progress-bar" style="width: {{ progress[model_id] }}%"></div>
+                            </div>
+                        </div>
+                        <p>{{ progress[model_id] }}%</p>
+                    {% endfor %}
                 </div>
-                <div name="loss">
-                    <h2>Power system load loss</h2>
-                    {{ power_system_load_loss }}
+                <div style="display: flex; flex-direction: column; gap: 2rem">
+                    <div name="alert">
+                        <b>Alert</b>: {{ alert_status }}
+                    </div>
+                    <div name="loss">
+                        <b>Power system load loss</b>: {{ power_system_load_loss }}
+                    </div>
                 </div>
             </div>
+        </div>
+        <div name="network">
+            <img src="{{ url_for('static', filename=network.image) }}"
+                 alt="{{ network.name }}"
+                 style="max-width: 100%;
+                        max-height: calc(100vh - 22rem);
+                        display: block">
+            <!-- TODO render network metrics in image -->
         </div>
     </div>
 {% endblock content %}

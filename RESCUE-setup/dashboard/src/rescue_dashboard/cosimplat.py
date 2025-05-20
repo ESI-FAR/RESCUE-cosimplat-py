@@ -40,3 +40,12 @@ def fetch_data(last_timestamp, conn):
         return [], last_timestamp
     finally:
         cursor.close()
+
+
+def reset_data(db_config):
+    with get_db_connection(db_config) as conn:
+        try:
+            conn.cursor().execute("TRUNCATE TABLE simcrono")
+            conn.commit()
+        finally:
+            conn.close()
