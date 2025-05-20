@@ -1,6 +1,7 @@
 """Methods to interact with the database."""
 
 from contextlib import contextmanager
+
 import mysql.connector
 
 
