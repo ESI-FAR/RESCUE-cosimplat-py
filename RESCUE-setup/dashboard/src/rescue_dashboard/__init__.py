@@ -1,10 +1,13 @@
+import subprocess
+import tomllib
 from pathlib import Path
 from textwrap import dedent
-import tomllib
+from time import sleep
 
 from flask import Flask, redirect, render_template, request, url_for
+from jinja2_fragments.flask import render_block
+
 from .cosimplat import fetch_data, get_db_connection
-import subprocess
 
 app = Flask(__name__)
 
@@ -19,6 +22,7 @@ progress = {
 
 @app.get("/")
 def index():
+    stop_models()
     return render_template("index.html.j2", networks=config["networks"])
 
 
@@ -106,6 +110,7 @@ def monitor(network_id, scenario_id):
         result, _ = fetch_data(epoch, conn)
 
     # TODO extract data from result
+    sleep(0.1)  # Simulate some processing time
     progress["current_step"] += 1
     total_steps = config["total_steps"]
     alert_status = "NOMINAL"
@@ -114,8 +119,7 @@ def monitor(network_id, scenario_id):
     if progress["current_step"] >= total_steps:
         stop_models()
 
-    return render_template(
-        "monitor.html.j2",
+    context = dict(
         network_id=network_id,
         network=network,
         scenario_id=scenario_id,
@@ -125,3 +129,7 @@ def monitor(network_id, scenario_id):
         alert_status=alert_status,
         power_system_load_loss=power_system_load_loss,
     )
+    if "hx-request" in request.headers:
+        return render_block("monitor.html.j2", "content", **context)
+
+    return render_template("monitor.html.j2", **context)

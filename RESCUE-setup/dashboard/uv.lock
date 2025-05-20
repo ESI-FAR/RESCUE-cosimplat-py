@@ -71,6 +71,18 @@ wheels = [
 ]
 
 [[package]]
+name = "jinja2-fragments"
+version = "1.9.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "jinja2" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/51/ed/00bfcc466e683d64d276ec7469e0abc01d81f1b63d612438084630fca0b7/jinja2_fragments-1.9.0.tar.gz", hash = "sha256:d903fe5781da1c1867f5fa6a53c5b58fabe7bd2a2721618db48ecba2974d2429", size = 17453 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e2/05/2a29edac68484f1e1171d257773f73b436a240bd2640ab66d27bfadb69ae/jinja2_fragments-1.9.0-py3-none-any.whl", hash = "sha256:69b91e7e2f325ea7e391e36a9abcc572db967e2bf3afd35f74fcb78fc9f8c6c5", size = 14433 },
+]
+
+[[package]]
 name = "markupsafe"
 version = "3.0.2"
 source = { registry = "https://pypi.org/simple" }
@@ -148,12 +160,14 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "flask" },
+    { name = "jinja2-fragments" },
     { name = "mysql-connector-python" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "flask", specifier = ">=3.1.1" },
+    { name = "jinja2-fragments", specifier = ">=1.9.0" },
     { name = "mysql-connector-python", specifier = ">=9.3.0" },
 ]
 

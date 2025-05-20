@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "flask>=3.1.1",
+    "jinja2-fragments>=1.9.0",
     "mysql-connector-python>=9.3.0",
 ]
 

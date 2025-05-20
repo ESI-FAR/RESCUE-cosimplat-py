@@ -1,11 +1,15 @@
-{# Reload page every 2s until simulation is complete #}
-<div {% if current_step < total_steps %}hx-get="{{ request.path }}" hx-trigger="every 2s" hx-swap="outerHTML"{% endif %}>
-    {% extends "base.html.j2" %}
-    {% block content %}
+{% extends "base.html.j2" %}
+{% block content %}
+    {# Reload page every 2s until simulation is complete #}
+    <div {% if current_step < total_steps %}hx-get="{{ request.path }}" hx-trigger="every 2s" hx-swap="outerHTML"{% endif %}>
         <div>
-            <h2>Simulation</h2>
+            <h2>Simulation <span class="htmx-indicator">loading...</span></h2>
             <div name="time">On step {{ current_step }} of {{ total_steps }}.</div>
             <!-- TODO add button to stop the simulation -->
+        </div>
+        <div name=""scenario">
+            <h2>Scenario: {{ scenario.name }}</h2>
+            <p>{{ scenario.description }}</p>
         </div>
         <div style="display: flex;
                     flex-direction: row;
@@ -21,12 +25,6 @@
                 <!-- TODO render network metrics in image -->
             </div>
             <div>
-                <div name=""scenario">
-                    <h2>Scenario: {{ scenario.name }}</h2>
-                    <p>{{ scenario.description }}</p>
-                </div>
-            </div>
-            <div>
                 <div name="alert">
                     <h2>Alert</h2>
                     {{ alert_status }}
@@ -37,5 +35,5 @@
                 </div>
             </div>
         </div>
-    {% endblock content %}
-</div>
+    </div>
+{% endblock content %}
