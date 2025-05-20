@@ -29,29 +29,43 @@ You can do that by exploiting Docker.
 
 Starting a MySQL instance:
 
- ```
-$ docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d cosimplat:tag
- ```
-(section in progress...)
+```shell
+docker run --name some-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -e MYSQL_DATABASE=cosimplat -d mysql:9.2
+```
 
+When you are done use `docker rm -f some-mysql` to stop the container.
 
-### 2. Create the `simcrono` Table 
+Alternative spinning up local sql sesrver you can spin one up using the the devcontainer from  https://github.com/ESI-FAR/RESCUE-cosimplat
+.
+
+### 2. Create the `simcrono` Table
+
+0. In mysql console
+
+    ```shell
+    docker exec -it some-mysql mysql -p cosimplat
+    # Use the password my-secret-pw
+    ```
+
+    If you are using the devcontainer you can connect to the db with
+    ```shell
+    docker exec -it rescue-cosimplat_devcontainer-mariadb-1 mariadb -u user -p cosimplat
+    # use userpassword as password
+    ```
 
 1. With the `cosimplat` database selected, enter the following SQL code to create the `simcrono` table:
 
     ```sql
-    CREATE TABLE simcrono (
+    CREATE TABLE IF NOT EXISTS simcrono (
     id INT AUTO_INCREMENT PRIMARY KEY,
     simgame_id INT NOT NULL,
     submodel_id INT NOT NULL,
     sim_step INT,  
     payload LONGTEXT NOT NULL,
-    state_history LONGTEXT NOT NULL,
+    state_history LONGTEXT,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
-
     ```
-
 
 ### 3. Download the CoSimPlat-py Codebase
 
@@ -73,6 +87,579 @@ To download the CoSimPlat-py codebase, follow the steps below:
 ### 5. Run the Application
 
 Run the main.py and proceed with your co-simulation.
+
+In 3 shells run
+
+<details>
+<summary>
+python3 main.py 1
+</summary>
+
+```shell
+Starting long-polling with simulation...
+Co-simulation started at step 0 by submodel_id 1.
+Running simulation step: 1
+Waiting for all players to share data for step 1.
+Running simulation step: 1
+Waiting for all players to share data for step 1.
+Running simulation step: 1
+All players have shared data for step 1.
+Running simulation step: 2
+Waiting for all players to share data for step 2.
+Running simulation step: 2
+Waiting for all players to share data for step 2.
+Running simulation step: 2
+All players have shared data for step 2.
+Running simulation step: 3
+Waiting for all players to share data for step 3.
+Running simulation step: 3
+Waiting for all players to share data for step 3.
+Running simulation step: 3
+All players have shared data for step 3.
+Running simulation step: 4
+Waiting for all players to share data for step 4.
+Running simulation step: 4
+Waiting for all players to share data for step 4.
+Running simulation step: 4
+All players have shared data for step 4.
+Running simulation step: 5
+Waiting for all players to share data for step 5.
+Running simulation step: 5
+Waiting for all players to share data for step 5.
+Running simulation step: 5
+All players have shared data for step 5.
+Running simulation step: 6
+Waiting for all players to share data for step 6.
+Running simulation step: 6
+Waiting for all players to share data for step 6.
+Running simulation step: 6
+All players have shared data for step 6.
+Running simulation step: 7
+Waiting for all players to share data for step 7.
+Running simulation step: 7
+Waiting for all players to share data for step 7.
+Running simulation step: 7
+All players have shared data for step 7.
+Running simulation step: 8
+Waiting for all players to share data for step 8.
+Running simulation step: 8
+Waiting for all players to share data for step 8.
+Running simulation step: 8
+All players have shared data for step 8.
+Running simulation step: 9
+Waiting for all players to share data for step 9.
+Running simulation step: 9
+Waiting for all players to share data for step 9.
+Running simulation step: 9
+All players have shared data for step 9.
+Running simulation step: 10
+Waiting for all players to share data for step 10.
+Running simulation step: 10
+Waiting for all players to share data for step 10.
+Running simulation step: 10
+All players have shared data for step 10.
+Running simulation step: 11
+Waiting for all players to share data for step 11.
+Running simulation step: 11
+Waiting for all players to share data for step 11.
+Running simulation step: 11
+All players have shared data for step 11.
+Running simulation step: 12
+Waiting for all players to share data for step 12.
+Running simulation step: 12
+Waiting for all players to share data for step 12.
+Running simulation step: 12
+All players have shared data for step 12.
+Running simulation step: 13
+Waiting for all players to share data for step 13.
+Running simulation step: 13
+Waiting for all players to share data for step 13.
+Running simulation step: 13
+All players have shared data for step 13.
+Running simulation step: 14
+Waiting for all players to share data for step 14.
+Running simulation step: 14
+Waiting for all players to share data for step 14.
+Running simulation step: 14
+All players have shared data for step 14.
+Running simulation step: 15
+Waiting for all players to share data for step 15.
+Running simulation step: 15
+Waiting for all players to share data for step 15.
+Running simulation step: 15
+All players have shared data for step 15.
+Running simulation step: 16
+Waiting for all players to share data for step 16.
+Running simulation step: 16
+Waiting for all players to share data for step 16.
+Running simulation step: 16
+All players have shared data for step 16.
+Running simulation step: 17
+Waiting for all players to share data for step 17.
+Running simulation step: 17
+Waiting for all players to share data for step 17.
+Running simulation step: 17
+All players have shared data for step 17.
+Running simulation step: 18
+Waiting for all players to share data for step 18.
+Running simulation step: 18
+Waiting for all players to share data for step 18.
+Running simulation step: 18
+All players have shared data for step 18.
+Running simulation step: 19
+Waiting for all players to share data for step 19.
+Running simulation step: 19
+Waiting for all players to share data for step 19.
+Running simulation step: 19
+All players have shared data for step 19.
+Running simulation step: 20
+Waiting for all players to share data for step 20.
+Running simulation step: 20
+Waiting for all players to share data for step 20.
+Running simulation step: 20
+All players have shared data for step 20.
+Running simulation step: 21
+Waiting for all players to share data for step 21.
+Running simulation step: 21
+Waiting for all players to share data for step 21.
+Running simulation step: 21
+All players have shared data for step 21.
+Running simulation step: 22
+Waiting for all players to share data for step 22.
+Running simulation step: 22
+Waiting for all players to share data for step 22.
+Running simulation step: 22
+All players have shared data for step 22.
+Running simulation step: 23
+Waiting for all players to share data for step 23.
+Running simulation step: 23
+Waiting for all players to share data for step 23.
+Running simulation step: 23
+All players have shared data for step 23.
+Running simulation step: 24
+Waiting for all players to share data for step 24.
+Running simulation step: 24
+Waiting for all players to share data for step 24.
+Running simulation step: 24
+All players have shared data for step 24.
+Running simulation step: 25
+Waiting for all players to share data for step 25.
+Running simulation step: 25
+Waiting for all players to share data for step 25.
+Running simulation step: 25
+All players have shared data for step 25.
+Running simulation step: 26
+Waiting for all players to share data for step 26.
+Running simulation step: 26
+Waiting for all players to share data for step 26.
+Running simulation step: 26
+All players have shared data for step 26.
+Running simulation step: 27
+Waiting for all players to share data for step 27.
+Running simulation step: 27
+Waiting for all players to share data for step 27.
+Running simulation step: 27
+All players have shared data for step 27.
+Running simulation step: 28
+Waiting for all players to share data for step 28.
+Running simulation step: 28
+Waiting for all players to share data for step 28.
+Running simulation step: 28
+All players have shared data for step 28.
+Running simulation step: 29
+Waiting for all players to share data for step 29.
+Running simulation step: 29
+Waiting for all players to share data for step 29.
+Running simulation step: 29
+All players have shared data for step 29.
+```
+</details>
+
+<details>
+<summary>
+python3 main.py 2
+</summary>
+
+```shell
+Starting long-polling with simulation...
+Co-simulation started at step 0 by submodel_id 2.
+SQL Error: 1364 (HY000): Field 'state_history' doesn't have a default value
+^CTraceback (most recent call last):
+  File "/home/stefanv/git/esi-far/RESCUE-cosimplat-py/main.py", line 259, in <module>
+    long_poll_with_simulation(steps)
+  File "/home/stefanv/git/esi-far/RESCUE-cosimplat-py/main.py", line 126, in long_poll_with_simulation
+    time.sleep(polling_interval)
+KeyboardInterrupt
+
+(venv) stefanv@ID14300:~/git/esi-far/RESCUE-cosimplat-py$ python3 main.py 2
+Starting long-polling with simulation...
+Running simulation step: 0
+Waiting for all players to share data for step 0.
+Co-simulation started at step 0 by submodel_id 2.
+Running simulation step: 1
+Waiting for all players to share data for step 1.
+Running simulation step: 1
+Waiting for all players to share data for step 1.
+Running simulation step: 1
+All players have shared data for step 1.
+Running simulation step: 2
+Waiting for all players to share data for step 2.
+Running simulation step: 2
+Waiting for all players to share data for step 2.
+Running simulation step: 2
+All players have shared data for step 2.
+Running simulation step: 3
+Waiting for all players to share data for step 3.
+Running simulation step: 3
+Waiting for all players to share data for step 3.
+Running simulation step: 3
+All players have shared data for step 3.
+Running simulation step: 4
+Waiting for all players to share data for step 4.
+Running simulation step: 4
+Waiting for all players to share data for step 4.
+Running simulation step: 4
+All players have shared data for step 4.
+Running simulation step: 5
+Waiting for all players to share data for step 5.
+Running simulation step: 5
+Waiting for all players to share data for step 5.
+Running simulation step: 5
+All players have shared data for step 5.
+Running simulation step: 6
+Waiting for all players to share data for step 6.
+Running simulation step: 6
+Waiting for all players to share data for step 6.
+Running simulation step: 6
+All players have shared data for step 6.
+Running simulation step: 7
+Waiting for all players to share data for step 7.
+Running simulation step: 7
+Waiting for all players to share data for step 7.
+Running simulation step: 7
+All players have shared data for step 7.
+Running simulation step: 8
+Waiting for all players to share data for step 8.
+Running simulation step: 8
+Waiting for all players to share data for step 8.
+Running simulation step: 8
+All players have shared data for step 8.
+Running simulation step: 9
+Waiting for all players to share data for step 9.
+Running simulation step: 9
+Waiting for all players to share data for step 9.
+Running simulation step: 9
+All players have shared data for step 9.
+Running simulation step: 10
+Waiting for all players to share data for step 10.
+Running simulation step: 10
+Waiting for all players to share data for step 10.
+Running simulation step: 10
+All players have shared data for step 10.
+Running simulation step: 11
+Waiting for all players to share data for step 11.
+Running simulation step: 11
+Waiting for all players to share data for step 11.
+Running simulation step: 11
+All players have shared data for step 11.
+Running simulation step: 12
+Waiting for all players to share data for step 12.
+Running simulation step: 12
+Waiting for all players to share data for step 12.
+Running simulation step: 12
+All players have shared data for step 12.
+Running simulation step: 13
+Waiting for all players to share data for step 13.
+Running simulation step: 13
+Waiting for all players to share data for step 13.
+Running simulation step: 13
+All players have shared data for step 13.
+Running simulation step: 14
+Waiting for all players to share data for step 14.
+Running simulation step: 14
+Waiting for all players to share data for step 14.
+Running simulation step: 14
+All players have shared data for step 14.
+Running simulation step: 15
+Waiting for all players to share data for step 15.
+Running simulation step: 15
+Waiting for all players to share data for step 15.
+Running simulation step: 15
+All players have shared data for step 15.
+Running simulation step: 16
+Waiting for all players to share data for step 16.
+Running simulation step: 16
+Waiting for all players to share data for step 16.
+Running simulation step: 16
+All players have shared data for step 16.
+Running simulation step: 17
+Waiting for all players to share data for step 17.
+Running simulation step: 17
+Waiting for all players to share data for step 17.
+Running simulation step: 17
+All players have shared data for step 17.
+Running simulation step: 18
+Waiting for all players to share data for step 18.
+Running simulation step: 18
+Waiting for all players to share data for step 18.
+Running simulation step: 18
+All players have shared data for step 18.
+Running simulation step: 19
+Waiting for all players to share data for step 19.
+Running simulation step: 19
+Waiting for all players to share data for step 19.
+Running simulation step: 19
+All players have shared data for step 19.
+Running simulation step: 20
+Waiting for all players to share data for step 20.
+Running simulation step: 20
+Waiting for all players to share data for step 20.
+Running simulation step: 20
+All players have shared data for step 20.
+Running simulation step: 21
+Waiting for all players to share data for step 21.
+Running simulation step: 21
+Waiting for all players to share data for step 21.
+Running simulation step: 21
+All players have shared data for step 21.
+Running simulation step: 22
+Waiting for all players to share data for step 22.
+Running simulation step: 22
+Waiting for all players to share data for step 22.
+Running simulation step: 22
+All players have shared data for step 22.
+Running simulation step: 23
+Waiting for all players to share data for step 23.
+Running simulation step: 23
+Waiting for all players to share data for step 23.
+Running simulation step: 23
+All players have shared data for step 23.
+Running simulation step: 24
+Waiting for all players to share data for step 24.
+Running simulation step: 24
+Waiting for all players to share data for step 24.
+Running simulation step: 24
+All players have shared data for step 24.
+Running simulation step: 25
+Waiting for all players to share data for step 25.
+Running simulation step: 25
+Waiting for all players to share data for step 25.
+Running simulation step: 25
+All players have shared data for step 25.
+Running simulation step: 26
+Waiting for all players to share data for step 26.
+Running simulation step: 26
+Waiting for all players to share data for step 26.
+Running simulation step: 26
+All players have shared data for step 26.
+Running simulation step: 27
+Waiting for all players to share data for step 27.
+Running simulation step: 27
+Waiting for all players to share data for step 27.
+Running simulation step: 27
+All players have shared data for step 27.
+Running simulation step: 28
+Waiting for all players to share data for step 28.
+Running simulation step: 28
+Waiting for all players to share data for step 28.
+Running simulation step: 28
+All players have shared data for step 28.
+Running simulation step: 29
+Waiting for all players to share data for step 29.
+Running simulation step: 29
+Waiting for all players to share data for step 29.
+Running simulation step: 29
+All players have shared data for step 29.
+```
+</details>
+
+<details>
+<summary>
+python3 main.py 3
+</summary>
+
+```shell
+Starting long-polling with simulation...
+Running simulation step: 0
+Waiting for all players to share data for step 0.
+Running simulation step: 0
+All players have shared data for step 0.
+Running simulation step: 1
+Waiting for all players to share data for step 1.
+Running simulation step: 1
+Waiting for all players to share data for step 1.
+Running simulation step: 1
+All players have shared data for step 1.
+Running simulation step: 2
+Waiting for all players to share data for step 2.
+Running simulation step: 2
+Waiting for all players to share data for step 2.
+Running simulation step: 2
+All players have shared data for step 2.
+Running simulation step: 3
+Waiting for all players to share data for step 3.
+Running simulation step: 3
+Waiting for all players to share data for step 3.
+Running simulation step: 3
+All players have shared data for step 3.
+Running simulation step: 4
+Waiting for all players to share data for step 4.
+Running simulation step: 4
+Waiting for all players to share data for step 4.
+Running simulation step: 4
+All players have shared data for step 4.
+Running simulation step: 5
+Waiting for all players to share data for step 5.
+Running simulation step: 5
+Waiting for all players to share data for step 5.
+Running simulation step: 5
+All players have shared data for step 5.
+Running simulation step: 6
+Waiting for all players to share data for step 6.
+Running simulation step: 6
+Waiting for all players to share data for step 6.
+Running simulation step: 6
+All players have shared data for step 6.
+Running simulation step: 7
+Waiting for all players to share data for step 7.
+Running simulation step: 7
+Waiting for all players to share data for step 7.
+Running simulation step: 7
+All players have shared data for step 7.
+Running simulation step: 8
+Waiting for all players to share data for step 8.
+Running simulation step: 8
+Waiting for all players to share data for step 8.
+Running simulation step: 8
+All players have shared data for step 8.
+Running simulation step: 9
+Waiting for all players to share data for step 9.
+Running simulation step: 9
+Waiting for all players to share data for step 9.
+Running simulation step: 9
+All players have shared data for step 9.
+Running simulation step: 10
+Waiting for all players to share data for step 10.
+Running simulation step: 10
+Waiting for all players to share data for step 10.
+Running simulation step: 10
+All players have shared data for step 10.
+Running simulation step: 11
+Waiting for all players to share data for step 11.
+Running simulation step: 11
+Waiting for all players to share data for step 11.
+Running simulation step: 11
+All players have shared data for step 11.
+Running simulation step: 12
+Waiting for all players to share data for step 12.
+Running simulation step: 12
+Waiting for all players to share data for step 12.
+Running simulation step: 12
+All players have shared data for step 12.
+Running simulation step: 13
+Waiting for all players to share data for step 13.
+Running simulation step: 13
+Waiting for all players to share data for step 13.
+Running simulation step: 13
+All players have shared data for step 13.
+Running simulation step: 14
+Waiting for all players to share data for step 14.
+Running simulation step: 14
+Waiting for all players to share data for step 14.
+Running simulation step: 14
+All players have shared data for step 14.
+Running simulation step: 15
+Waiting for all players to share data for step 15.
+Running simulation step: 15
+Waiting for all players to share data for step 15.
+Running simulation step: 15
+All players have shared data for step 15.
+Running simulation step: 16
+Waiting for all players to share data for step 16.
+Running simulation step: 16
+Waiting for all players to share data for step 16.
+Running simulation step: 16
+All players have shared data for step 16.
+Running simulation step: 17
+Waiting for all players to share data for step 17.
+Running simulation step: 17
+Waiting for all players to share data for step 17.
+Running simulation step: 17
+All players have shared data for step 17.
+Running simulation step: 18
+Waiting for all players to share data for step 18.
+Running simulation step: 18
+Waiting for all players to share data for step 18.
+Running simulation step: 18
+All players have shared data for step 18.
+Running simulation step: 19
+Waiting for all players to share data for step 19.
+Running simulation step: 19
+Waiting for all players to share data for step 19.
+Running simulation step: 19
+All players have shared data for step 19.
+Running simulation step: 20
+Waiting for all players to share data for step 20.
+Running simulation step: 20
+Waiting for all players to share data for step 20.
+Running simulation step: 20
+All players have shared data for step 20.
+Running simulation step: 21
+Waiting for all players to share data for step 21.
+Running simulation step: 21
+Waiting for all players to share data for step 21.
+Running simulation step: 21
+All players have shared data for step 21.
+Running simulation step: 22
+Waiting for all players to share data for step 22.
+Running simulation step: 22
+Waiting for all players to share data for step 22.
+Running simulation step: 22
+All players have shared data for step 22.
+Running simulation step: 23
+Waiting for all players to share data for step 23.
+Running simulation step: 23
+Waiting for all players to share data for step 23.
+Running simulation step: 23
+All players have shared data for step 23.
+Running simulation step: 24
+Waiting for all players to share data for step 24.
+Running simulation step: 24
+Waiting for all players to share data for step 24.
+Running simulation step: 24
+All players have shared data for step 24.
+Running simulation step: 25
+Waiting for all players to share data for step 25.
+Running simulation step: 25
+Waiting for all players to share data for step 25.
+Running simulation step: 25
+All players have shared data for step 25.
+Running simulation step: 26
+Waiting for all players to share data for step 26.
+Running simulation step: 26
+Waiting for all players to share data for step 26.
+Running simulation step: 26
+All players have shared data for step 26.
+Running simulation step: 27
+Waiting for all players to share data for step 27.
+Running simulation step: 27
+Waiting for all players to share data for step 27.
+Running simulation step: 27
+All players have shared data for step 27.
+Running simulation step: 28
+Waiting for all players to share data for step 28.
+Running simulation step: 28
+Waiting for all players to share data for step 28.
+Running simulation step: 28
+All players have shared data for step 28.
+Running simulation step: 29
+Waiting for all players to share data for step 29.
+Running simulation step: 29
+Waiting for all players to share data for step 29.
+Running simulation step: 29
+All players have shared data for step 29.
+```
+</details>
 
 ## Troubleshooting
 
