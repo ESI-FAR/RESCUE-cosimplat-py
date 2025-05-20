@@ -15,7 +15,7 @@ from wp3_model import your_simulation, submodel_id, total_players
 db_config = {
     'host': 'localhost',
     'user': 'root',
-    'password': '',
+    'password': 'my-secret-pw',
     'database': 'cosimplat'
 }
 

@@ -3,7 +3,7 @@ total_steps = 30
 [database]
 host = "localhost"
 user = "root"
-password = ''
+password = 'my-secret-pw'
 database = "cosimplat"
 
 [networks]

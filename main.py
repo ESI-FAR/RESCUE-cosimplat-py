@@ -16,7 +16,7 @@ import datetime
 db_config = {
     'host': 'localhost',
     'user': 'root',
-    'password': '',  # Add your MySQL password here if applicable. Not needed on localhost
+    'password': 'my-secret-pw',  # Add your MySQL password here if applicable. Not needed on localhost
     'database': 'cosimplat'
 }
 
