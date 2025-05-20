@@ -8,9 +8,10 @@ submodel_id = 1
 total_players = 3
 
 db_config = {
-    'host': 'localhost',
+    'host':"127.0.0.1",
+    'port':3306,
     'user': 'root',
-    'password': '',
+    'password': 'my-secret-pw',
     'database': 'cosimplat'
 }
 

@@ -8,9 +8,10 @@ submodel_id = 3
 total_players = 3  # Adjust if WP4 is a 4-player game
 
 db_config = {
-    'host': 'localhost',
+    'host':"127.0.0.1",
+    'port':3306,
     'user': 'root',
-    'password': '',
+    'password': 'my-secret-pw',
     'database': 'cosimplat'
 }
 
