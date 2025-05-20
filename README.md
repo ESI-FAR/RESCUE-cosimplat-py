@@ -57,11 +57,18 @@ $ docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d cosimplat:
 
 To download the CoSimPlat-py codebase, follow the steps below:
 
-1. Clone the repository using Git:
-   ```bash
-   git clone https://github.com/ESI-FAR/RESCUE-cosimplat-py.git
+1. Open a new terminal and clone the repository using Git:
 
+```bash
+git clone https://github.com/ESI-FAR/RESCUE-cosimplat-py.git
+```
 
+2. From your terminal, install  ```mysql-connector-python ```:
+  
+ ```bash
+  pip install mysql-connector-python
+
+```
 ### 4. Setup your co-simulation 
 
 1. Agree on the JSON packet structure with other players: which information would you like to share at every step? 
