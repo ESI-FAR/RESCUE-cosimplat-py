@@ -14,24 +14,25 @@ with open("config.toml", "rb") as f:
     config = tomllib.load(f)
 
 
+# Note: This only works when flask is run in single-threaded mode
+progress = {}
+
+
 def reset_progress():
     reset_data(config["database"])
+    progress["done"] = False
+    progress["last_timestamp"] = "1970-01-01 00:00:00"
     # Store progress of each model as a percentage
-    model_progress = {model_id: 0 for model_id in config["models"]}
-    return {
-        "done": False,
-        "last_timestamp": "1970-01-01 00:00:00",
-    } | model_progress
+    for model_id in config["models"]:
+        progress[model_id] = 0
 
 
-# Note: This only works when flask is run in single-threaded mode
-progress = reset_progress()
+reset_progress()
 
 
 @app.get("/")
 def index():
     stop_models()
-    reset_progress()
     return render_template("index.html.j2", networks=config["networks"])
 
 
