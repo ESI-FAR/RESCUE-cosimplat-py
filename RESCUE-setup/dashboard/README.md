@@ -24,7 +24,7 @@ Format Python code using [ruff](https://docs.astral.sh/ruff/):
 ```shell
 uvx ruff format
 # Sort imports with
-ruff check --select I --fix
+uvx ruff check --select I --fix
 ```
 Lint Python code:
 ```shell

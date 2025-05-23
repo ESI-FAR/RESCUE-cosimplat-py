@@ -41,8 +41,7 @@ When you are done use `docker rm -f cosimplat-mysql` to stop the container.
 0. Open mysql console
 
     ```shell
-    docker exec -it cosimplat-mysql mysql -p cosimplat
-    # Use the password my-secret-pw
+    docker exec -it cosimplat-mysql mysql -pmy-secret-pw cosimplat
     ```
 
 1. With the `cosimplat` database selected, enter the following SQL code to create the `simcrono` table:

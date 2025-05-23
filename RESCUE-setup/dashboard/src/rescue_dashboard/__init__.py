@@ -1,10 +1,10 @@
 import subprocess
 import tomllib
-from pathlib import Path
-from textwrap import dedent
 
 from flask import Flask, redirect, render_template, request, url_for
 from jinja2_fragments.flask import render_block
+
+from rescue_dashboard.plot import plot_alerts, plot_loss
 
 from .cosimplat import fetch_data, get_db_connection, reset_data
 
@@ -59,18 +59,9 @@ def network(network_id):
 def post_network(network_id):
     scenario_id = request.form["scenario_id"]
 
-    # TODO use file in ../WP2/wp2_model.py, or pass selection as argument to popen
-    selection_file = Path("../WP2/selection.toml")
-    selection_file.write_text(
-        dedent(f"""\
-        network = {network_id}
-        scenario = {scenario_id}    
-    """)
-    )
-
     stop_models()
     reset_progress()
-    start_models()
+    start_models(network_id, scenario_id)
 
     return redirect(url_for("monitor", network_id=network_id, scenario_id=scenario_id))
 
@@ -78,16 +69,17 @@ def post_network(network_id):
 model_pids = {}
 
 
-def start_models():
+def start_models(network_id, scenario_id):
     for model_id, model in config["models"].items():
-        name = model["name"]
-        model_dir = f"../{name.upper()}"
-        out = open(f"{model_dir}/log.out", "w")
-        err = open(f"{model_dir}/log.err", "w")
+        work_dir = model["work_dir"]
+        script = model["script"].format(network=network_id, scenario=scenario_id)
+        script_parts = script.split()
 
-        script = f"main_{name}.py"
+        out = open(f"{work_dir}/log.out", "w")
+        err = open(f"{work_dir}/log.err", "w")
+
         model_pids[model_id] = subprocess.Popen(
-            ["python", script], stdout=out, stderr=err, cwd=model_dir
+            ["python"] + script_parts, stdout=out, stderr=err, cwd=work_dir
         )
 
 
@@ -97,6 +89,44 @@ def stop_models():
             pid.terminate()
             pid.wait()
             model_pids[model] = None
+
+
+def extract_loss():
+    power_system_submodel_id = 1
+    with get_db_connection(config["database"]) as conn:
+        try:
+            cursor = conn.cursor(dictionary=True)
+            query = """
+            SELECT 
+            sim_step,
+            JSON_EXTRACT(payload, '$.payload.submodel_payload.power_system_load_loss' ) AS power_system_load_loss
+            FROM simcrono
+            WHERE submodel_id = %s
+            ORDER BY sim_step ASC
+            """
+            cursor.execute(query, (power_system_submodel_id,))
+            return cursor.fetchall()
+        finally:
+            cursor.close()
+
+
+def extract_alert():
+    incident_submodel_id = 3
+    with get_db_connection(config["database"]) as conn:
+        try:
+            cursor = conn.cursor(dictionary=True)
+            query = """
+            SELECT 
+            sim_step,
+            JSON_EXTRACT(payload, '$.payload.submodel_payload.nr_alerts' ) AS nr_alerts
+            FROM simcrono
+            WHERE submodel_id = %s
+            ORDER BY sim_step ASC
+            """
+            cursor.execute(query, (incident_submodel_id,))
+            return cursor.fetchall()
+        finally:
+            cursor.close()
 
 
 @app.route("/monitor/<network_id>/scenario/<scenario_id>")
@@ -123,9 +153,8 @@ def monitor(network_id, scenario_id):
                     100 * (r["sim_step"] + 1) / total_steps
                 )
 
-    # TODO extract payloads from result
-    alert_status = "NOMINAL"
-    power_system_load_loss = 0
+    power_system_load_loss = plot_loss(extract_loss(), total_steps)
+    alert_status = plot_alerts(extract_alert(), total_steps)
 
     if progress["done"]:
         stop_models()

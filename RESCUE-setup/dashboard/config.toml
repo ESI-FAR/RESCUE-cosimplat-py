@@ -13,14 +13,20 @@ database = "cosimplat"
 [models.1]
 name = 'wp2'
 label = "Cyber-Physical power system"
+work_dir = "../WP2"
+script = "main_wp2.py --network {network} --scenario {scenario}"
 
 [models.2]
 name = "wp3"
 label = "Intrusion detection system"
+work_dir = "../WP3"
+script = "main_wp3.py"
 
 [models.3]
 name = "wp4"
 label = "Incident response model"
+work_dir = "../WP4"
+script = "main_wp4.py"
 
 [networks]
 
