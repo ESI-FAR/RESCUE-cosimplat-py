@@ -1,0 +1,56 @@
+{% extends "base.html.j2" %}
+{% block content %}
+    {# Reload page every 2s until simulation is complete #}
+    <div {% if not progress.done %}hx-get="{{ request.path }}" hx-trigger="every 2s" hx-swap="outerHTML"{% endif %}>
+        <div>
+            <h2>
+                Monitoring simulation <span class="htmx-indicator">loading...</span>
+            </h2>
+            Of "{{ network.name }}" network and "<span title="{{ scenario.description }}">{{ scenario.name }}</span>" scenario.
+            <!-- TODO add button to stop or pause the simulation -->
+            <style>
+            .progress {
+                width: 100%;
+                background-color: #f3f3f3;
+                border-radius: 5px;
+                overflow: hidden;
+            }
+
+            .progress-bar {
+                height: 20px;
+                width: 0%;
+                background-color: {% if progress.done %}green{% else %}blue{% endif %};
+                transition: width 0.4s;
+            }
+            </style>
+            <div style="display: grid;
+                        grid-template-columns: auto 1fr auto;
+                        gap: 10px">
+                {% for model_id,model in models.items() %}
+                    <p>{{ model.label }} ({{ model.name }})</p>
+                    <div style="align-content: center;">
+                        <div class="progress">
+                            <div class="progress-bar" style="width: {{ progress[model_id] }}%"></div>
+                        </div>
+                    </div>
+                    <p>{{ progress[model_id] }}%</p>
+                {% endfor %}
+            </div>
+            <div id="power_system">
+                {{
+                power_system_load_loss| safe
+                }}
+            </div>
+            <div id="incident_response">
+                <h4>Incident response</h4>
+                {{
+                alert_status| safe
+                }}
+            </div>
+            {# TODO render power system metrics in network graph
+        <div name="network">
+            <img src="{{ url_for('static', filename=network.image) }}" alt="{{ network.name }}" style="max-width: 100%; max-height: calc(100vh - 22rem); display: block">
+        </div> #}
+        </div>
+    </div>
+{% endblock content %}

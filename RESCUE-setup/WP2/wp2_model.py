@@ -1,16 +1,33 @@
+import argparse
+import logging
 import time
 import json
 import datetime
 import mysql.connector
+
+
+logger = logging.getLogger(__name__)
+
+# --- Add command line argument parsing ---
+parser = argparse.ArgumentParser()
+parser.add_argument("--network", type=str, required=True, help="Network ID")
+parser.add_argument("--scenario", type=str, required=True, help="Scenario ID")
+args = parser.parse_args()
+
+network = args.network
+scenario = args.scenario
+
+logger.warning(f"Running power system on network: {network} and scenario: {scenario}")
 
 # Simulation configuration shared with main
 submodel_id = 1
 total_players = 3
 
 db_config = {
-    'host': 'localhost',
+    'host':"127.0.0.1",
+    'port':3306,
     'user': 'root',
-    'password': '',
+    'password': 'my-secret-pw',
     'database': 'cosimplat'
 }
 
@@ -79,19 +96,37 @@ def your_simulation(payloads, current_step):
 
     # 4. Insert Payload relative to the "next step" into MySQL database the result of your simulation.
 
+    # Dummy values for demonstration
+
+    wp4_submodel_id = 1
+    wp4_data = get_submodel_payload(payloads, wp4_submodel_id)
+    alert = None
+    if wp4_data:
+        alert = wp4_data.get("alert", False)
+
+    power_system_load_loss = 0
+    if current_step > 10:
+        power_system_load_loss = 0.5
+    if current_step > 20:
+        if alert:
+            power_system_load_loss = 0
+        else:
+            power_system_load_loss = 1
+    
+
+    traffic = 2
+    if scenario == 1 and current_step == 10:
+        traffic = 4
 
     payload = {
         "simgame_id": 1,
         "submodel_id": submodel_id,
         "payload": {
-            "submodel_status": "ONLINE",
-            "subsim_state": "COMPLETED",
-            "submodel_current_step": current_step,
-            "submodel_payload": [
-                {"item_id": "1_item1", "item_value": 10, "item_unit": "m", "item_meta": ""},
-                {"item_id": "1_item2", "item_value": 20, "item_unit": "s", "item_meta": ""},
-                {"item_id": "1_item3", "item_value": 5,  "item_unit": "kg", "item_meta": ""}
-            ]
+            "submodel_payload": {
+                "network": network,
+                "power_system_load_loss": power_system_load_loss,
+                "traffic": traffic,
+            }
         },
         "state_history": "Initial state",
         "sim_step": current_step,

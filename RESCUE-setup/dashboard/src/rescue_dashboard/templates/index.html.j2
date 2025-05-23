@@ -1,0 +1,29 @@
+{% extends "base.html.j2" %}
+{% block content %}
+    <h2>Select a Network</h2>
+    <form method="post">
+        <div style="display: flex; flex-direction: row;gap: 2rem;">
+            {% for network_id, network in networks.items() %}
+                <div style="margin-bottom: 1em;
+                            border: 1px solid #ccc;
+                            padding: 1em;
+                            border-radius: 5px">
+                    <label>
+                        <input type="radio"
+                               name="network_id"
+                               value="{{ network_id }}"
+                               {% if loop.first %}checked{% endif %}>
+                        <strong>{{ network.name }}</strong>
+                        <br>
+                        <img src="{{ url_for('static', filename=network.image) }}"
+                             alt="{{ network.name }}"
+                             style="max-width: 750px;
+                                    display: block;
+                                    margin-top: 0.5em">
+                    </label>
+                </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn">Select Network</button>
+    </form>
+{% endblock content %}

@@ -14,9 +14,10 @@ from wp2_model import your_simulation, submodel_id, total_players  # <-- use sha
 
 # Database configuration
 db_config = {
-    'host': 'localhost',
+    'host':"127.0.0.1",
+    'port':3306,
     'user': 'root',
-    'password': '',
+    'password': 'my-secret-pw',
     'database': 'cosimplat'
 }
 

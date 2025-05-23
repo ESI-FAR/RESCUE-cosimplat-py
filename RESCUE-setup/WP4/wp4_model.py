@@ -1,16 +1,21 @@
+import logging
 import time
 import json
 import datetime
+
 import mysql.connector
+
+logger = logging.getLogger(__name__)
 
 # WP4 Configuration
 submodel_id = 3
 total_players = 3  # Adjust if WP4 is a 4-player game
 
 db_config = {
-    'host': 'localhost',
+    'host':"127.0.0.1",
+    'port':3306,
     'user': 'root',
-    'password': '',
+    'password': 'my-secret-pw',
     'database': 'cosimplat'
 }
 
@@ -33,10 +38,6 @@ def insert_payload_to_db(payload_json, submodel_id, simgame_id, sim_step):
         conn.close()
 
 
-
-import json
-
-import json
 
 def get_submodel_payload(payloads, target_submodel_id):
     """
@@ -81,18 +82,24 @@ def your_simulation(payloads, current_step):
 
     # 4. Insert Payload relative to the "next step" into MySQL database the result of your simulation.
 
+    wp2_submodel_id = 1
+    wp2_data = get_submodel_payload(payloads, wp2_submodel_id)
+    network = None
+    if wp2_data is not None:
+        network = wp2_data['network']
+
+    # Mock number of alerts for demonstration purposes
+    nr_alerts = 0
+    if network is not None and current_step > 22:
+        nr_alerts = 42
+
     payload = {
         "simgame_id": 1,
         "submodel_id": submodel_id,
         "payload": {
-            "submodel_status": "ONLINE",
-            "subsim_state": "COMPLETED",
-            "submodel_current_step": current_step,
-            "submodel_payload": [
-                {"item_id": "4_item1", "item_value": 30, "item_unit": "m", "item_meta": ""},
-                {"item_id": "4_item2", "item_value": 40, "item_unit": "s", "item_meta": ""},
-                {"item_id": "4_item3", "item_value": 12, "item_unit": "kg", "item_meta": ""}
-            ]
+            "submodel_payload": {
+                "nr_alerts": nr_alerts
+            }
         },
         "state_history": "WP4 step processed",
         "sim_step": current_step,

@@ -8,9 +8,10 @@ submodel_id = 2
 total_players = 3
 
 db_config = {
-    'host': 'localhost',
+    'host':"127.0.0.1",
+    'port':3306,
     'user': 'root',
-    'password': '',
+    'password': 'my-secret-pw',
     'database': 'cosimplat'
 }
 
@@ -73,18 +74,25 @@ def your_simulation(payloads, current_step):
 
     # 4. Insert Payload relative to the "next step" into MySQL database the result of your simulation.
 
+    wp2_submodel_id = 1
+    wp2_data = get_submodel_payload(payloads, wp2_submodel_id)
+    network = None
+    traffic = None
+    if wp2_data is not None:
+        network = wp2_data['network']
+        traffic = wp2_data['traffic']
+    
+    intrusion_detected = False
+    if network == "1" and traffic > 3:
+        intrusion_detected = True
+
     payload = {
         "simgame_id": 1,
         "submodel_id": submodel_id,
         "payload": {
-            "submodel_status": "ONLINE",
-            "subsim_state": "COMPLETED",
-            "submodel_current_step": current_step,
-            "submodel_payload": [
-                {"item_id": "2_item1", "item_value": 15, "item_unit": "m", "item_meta": ""},
-                {"item_id": "2_item2", "item_value": 25, "item_unit": "s", "item_meta": ""},
-                {"item_id": "2_item3", "item_value": 8,  "item_unit": "kg", "item_meta": ""}
-            ]
+            "submodel_payload": {
+                "intrusion_detected": intrusion_detected,
+            }
         },
         "state_history": "WP3 processed step",
         "sim_step": current_step,

@@ -1,0 +1,22 @@
+[project]
+name = "rescue-dashboard"
+version = "0.1.0"
+description = "A web-based dashboard for the RESCUE co-simulation platform"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "flask>=3.1.1",
+    "jinja2-fragments>=1.9.0",
+    "mysql-connector-python>=9.3.0",
+    "pygal>=3.0.5",
+]
+
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[tool.djlint]
+profile = "jinja"
+files=["src/rescue_dashboard/templates"]
+extension="html.j2"
+ignore = "H021,H006"

@@ -29,24 +29,31 @@ You can do that by exploiting Docker.
 
 Starting a MySQL instance:
 
- ```
-$ docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d cosimplat:tag
- ```
-(section in progress...)
+```shell
+docker run --name cosimplat-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -e MYSQL_DATABASE=cosimplat -d mysql:9.2
+```
+
+When you are done use `docker rm -f cosimplat-mysql` to stop the container.
 
 
 ### 2. Create the `simcrono` Table 
 
+0. Open mysql console
+
+    ```shell
+    docker exec -it cosimplat-mysql mysql -pmy-secret-pw cosimplat
+    ```
+
 1. With the `cosimplat` database selected, enter the following SQL code to create the `simcrono` table:
 
     ```sql
-    CREATE TABLE simcrono (
+    CREATE TABLE IF NOT EXISTS simcrono (
     id INT AUTO_INCREMENT PRIMARY KEY,
     simgame_id INT NOT NULL,
     submodel_id INT NOT NULL,
     sim_step INT,  
     payload LONGTEXT NOT NULL,
-    state_history LONGTEXT NOT NULL,
+    state_history LONGTEXT,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
 
